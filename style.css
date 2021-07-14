@@ -4,7 +4,7 @@ body
     text-align: center;
 }
 
-#levl-title
+#level-title
 {
     font-family: 'Press Start 2P', cursive;
     font-size: 3rem;
@@ -51,8 +51,7 @@ body
  background-color:blue;
 }
 
-.pressed-button
-{
-    background-color: #011F3F;
-    
-}
+.pressed {
+    box-shadow: 0 0 20px white;
+    background-color: grey;
+  }

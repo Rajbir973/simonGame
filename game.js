@@ -6,18 +6,50 @@ var gamePattern=[]
 
 var userClickedPattern=[]
 
+var started=false;
+
+var level=0
+
+// function to check user selected colour
+$(".btn").click(function(event){
+
+  var userChosenColour=event.target.id; //or we can use $(this).attr("id");
+  userClickedPattern.push(userChosenColour)
+
+  playSound(userChosenColour)
+  // console.log(userClickedPattern)
+  animatePress(userChosenColour)
+
+  console.log(userClickedPattern.length-1)
+
+})
+
+//Function to check keydown event in the begining 
+
+$("body").keydown(function(){
+  
+  if(!started)
+  {
+   $("#level-title").text("Level"+level) 
+   nextSequence()
+   started=true;
+  }
+  
+})
+
+
 //1. Inside game.js create a new function called nextSequence()
+// function to select the colour for an item with randomnumbers
 function nextSequence()
-{   
+{
+  level++   
+
+  $("#level-title").text("Level "+level)
   //2. Inside the new function generate a new random number between 0 and 3, and store it in a variable called randomNumber
     var randomNumber=Math.floor(Math.random()*4);
-
-  //4. Create a new variable called randomChosenColour and use the randomNumber from step 2 to select a random colour from the buttonColours array.
+    
+    //4. Create a new variable called randomChosenColour and use the randomNumber from step 2 to select a random colour from the buttonColours array.
     var randomChosenColour=buttonColours[randomNumber];
-    
-    
-    
-    
     
     //  console.log(randomChosenColour)
     // switch (randomChosenColour) {
@@ -66,20 +98,37 @@ function nextSequence()
     //7. Use Google/Stackoverflow to figure out how you can use jQuery to animate a flash to the button selected in step 1.
     $("#"+ randomChosenColour).fadeIn(100).fadeOut(100).fadeIn(100);
 
-    var audio=new Audio("sounds/"+randomChosenColour+".mp3");
-    audio.play();
+    playSound(randomChosenColour);
+    
+   
 
 }
-nextSequence()
 
-$(".btn").on("click", function(event){
+//Function to play sound in both the scenarios
+function playSound(name)
+{
+  var audio=new Audio("sounds/"+name+".mp3");
+  audio.play();
+}
 
-  var userChosenColour=event.target.id; 
-  userClickedPattern.push(userChosenColour)
-  // console.log(userClickedPattern)
+// function to add animations to the code
+function animatePress(currentColour)
+{
+  $("#"+currentColour).addClass("pressed")
 
-})
+  setTimeout(function(){
+    $("#"+currentColour).removeClass("pressed")
+  },100)
+}
 
+// function to compare user input with the randomInput genreated by computer
+function checkAnswer(currentLevel)
+{
+  if(currentLevel===newLevel)
+  {
+
+  } 
+}
 
 
 
