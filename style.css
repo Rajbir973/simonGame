@@ -22,8 +22,8 @@ body
 .btn
 {
     display:inline-block;
-    height:200px;
-    width:200px;
+    height:180px;
+    width:180px;
     background-color:red;
     margin: 5%;
     border: 10px solid black ;
@@ -55,3 +55,8 @@ body
     box-shadow: 0 0 20px white;
     background-color: grey;
   }
+
+.game-over
+{
+    background-color: red;
+}  
