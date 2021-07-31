@@ -10,22 +10,7 @@ var started=false;
 
 var level=0
 
-// function to check user selected colour
-$(".btn").click(function(event){
-
-  var userChosenColour=event.target.id; //or we can use $(this).attr("id");
-  userClickedPattern.push(userChosenColour)
-
-  playSound(userChosenColour)
-  // console.log(userClickedPattern)
-  animatePress(userChosenColour)
-
-  console.log(userClickedPattern.length-1)
-
-})
-
 //Function to check keydown event in the begining 
-
 $("body").keydown(function(){
   
   if(!started)
@@ -37,11 +22,34 @@ $("body").keydown(function(){
   
 })
 
+// function to check user selected colour
+$(".btn").click(function(event){
+
+  var userChosenColour=event.target.id; //or we can use $(this).attr("id");
+//  console.log(userChosenColour)
+  userClickedPattern.push(userChosenColour)
+
+  playSound(userChosenColour)
+  // console.log(userClickedPattern)
+  animatePress(userChosenColour)
+
+  // console.log(userClickedPattern.length-1)
+  checkAnswer(userClickedPattern.length-1)
+  // userClickedPattern.length-1 way to print last element of the array
+  // length++
+  // console.log(userClickedPattern[0])
+
+
+})
+
 
 //1. Inside game.js create a new function called nextSequence()
 // function to select the colour for an item with randomnumbers
 function nextSequence()
 {
+  // Once nextSequence() is triggered, reset the userClickedPattern to an empty array ready for the next level.
+  //user needs to rember the colours
+  userClickedPattern = [];
   level++   
 
   $("#level-title").text("Level "+level)
@@ -88,6 +96,7 @@ function nextSequence()
     //     case"blue":
     //      $(".blue").addClass("pressed-button");  
     //      setTimeout(function(){$(".blue").removeClass("pressed-button");},100);
+    // setTimeout(function(){},1000)
     //     break;   
           
     //     default:
@@ -124,10 +133,59 @@ function animatePress(currentColour)
 // function to compare user input with the randomInput genreated by computer
 function checkAnswer(currentLevel)
 {
-  if(currentLevel===newLevel)
+  // console.log("game ["+gamePattern+"]")
+  // console.log("user ["+userClickedPattern+"]")
+  
+
+
+  // console.log(gamePattern[currentLevel])
+  // console.log(userClickedPattern[currentLevel])
+  if(gamePattern[currentLevel]===userClickedPattern[currentLevel])
   {
 
+    // setTimeout(function(){nextSequence()},1000)
+    //It only runs this statement when it knows 
+    // user has made number of clicks equal to the elements in gamepattren array
+
+      if(userClickedPattern.length===gamePattern.length)
+    {
+      // console.log("this is"+userClickedPattern.length)
+      // console.log("this is"+gamePattern.length)
+    
+      setTimeout(function()
+      {
+        nextSequence();
+      },1000);
+    } 
+  
   } 
+  else
+  {
+    $("#level-title").text("GAME OVER,Press Any Key to Restart")
+    var gameOverSound=new Audio("sounds/wrong.mp3")
+    gameOverSound.play()
+
+    $("body").addClass("game-over")
+
+    setTimeout(function(){
+      $("body").removeClass("game-over")
+    },200)
+
+    startOver()
+  }
+
+  
+  // userClickedPattern=[]
+}
+
+function startOver()
+{
+
+   gamePattern=[]
+
+   started=false;
+  
+   level=0
 }
 
 
